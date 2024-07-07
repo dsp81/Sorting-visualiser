@@ -1,0 +1,86 @@
+#include <graphics.h>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+class Bar {
+private:
+    int position;
+    int height;
+
+public:
+    Bar(int pos, int h) : position(pos), height(h) {}
+
+    void draw() const {
+        int left = position * 50 + 50;
+        int bottom = 400;
+        rectangle(left, bottom, left + 30, bottom - height * 10);
+    }
+
+    void setHeight(int h) {
+        height = h;
+    }
+
+    int getHeight() const {
+        return height;
+    }
+};
+class Visualization {
+private:
+    Bar bars[8]; 
+
+public:
+    Visualization(int heights[]) {
+        for (int i = 0; i < 8; ++i) {
+            bars[i] = Bar(i, heights[i]);
+        }
+    }
+
+    void initWindow() {
+        int gd = DETECT, gm;
+        initgraph(&gd, &gm, "");
+    }
+
+    void drawBars() {
+        cleardevice();
+        for (int i = 0; i < 8; ++i) {
+            bars[i].draw();
+        }
+    }
+
+    void delay(int milliseconds) {
+        clock_t start_time = clock();
+        while (clock() < start_time + milliseconds);
+    }
+
+    void bubbleSort() {
+        for (int i = 0; i < 7; ++i) {
+            for (int j = 0; j < 7 - i; ++j) {
+                if (bars[j].getHeight() > bars[j + 1].getHeight()) {
+                    swap(bars[j], bars[j + 1]);
+
+                    drawBars();
+                    delay(500);
+                }
+            }
+        }
+    }
+};
+
+
+int main() {
+    int heights[] = {5, 3, 8, 1, 2, 7, 4, 6};
+
+    Visualization visual(heights);
+    visual.initWindow();
+    visual.drawBars();
+
+    delay(1000); 
+
+    visual.bubbleSort();
+
+    delay(2000); 
+    closegraph();
+    return 0;
+}
