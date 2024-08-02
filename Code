@@ -10,8 +10,10 @@ private:
     int height;
 
 public:
-    Bar(int pos, int h) : position(pos), height(h) {}
-
+    Bar(int pos, int h){
+        position = pos;
+        height = h;
+    }
     void draw() const {
         int left = position * 50 + 50;
         int bottom = 400;
@@ -22,7 +24,7 @@ public:
         height = h;
     }
 
-    int getHeight() const {
+    int getHeight(){
         return height;
     }
 };
